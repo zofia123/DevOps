@@ -55,13 +55,13 @@ const redisClient = redis.createClient({
 // mybackend
 // konfiguracja endpointów w mybackend
 
-// localhost:8080 lub 127.0.0.1:8080
+// localhost:8090 lub 127.0.0.1:8090
 app.get("/", (req, res) => {
     res.send("Hello World!"); // odpowiedź dla klienta (np. przeglądarka lub narzędzie CURL)
 });
 
-// localhost:8080/techniki
-app.post('/techniki', function (req, res) {
+// localhost:8090/techniki/dodaj
+app.post('/techniki/dodaj', function (req, res) {
     const data = req.body;
     const id = uuidv4();
     redisClient.hmset(`${id}`, {'nazwa': `${data.nazwa}`, 'rodzaj': `${data.rodzaj}`, 'ilosc_kolorow': `${data.ilosc_kolorow}`, 'przyklad_dziela': `${data.przyklad_dziela}`});
@@ -71,7 +71,7 @@ app.post('/techniki', function (req, res) {
     res.end();
 });
 
-// localhost:8080/techniki/d18386e8-61a3-4e3d-9a07-59dbfbde5627
+// localhost:8090/techniki/d18386e8-61a3-4e3d-9a07-59dbfbde5627
 app.get("/techniki/:id", (req, res) => {
     const id = req.params.id;
 
@@ -101,8 +101,56 @@ app.get("/techniki/:id", (req, res) => {
 
 });
 
+// localhost:8090/techniki/aktualizuj/d18386e8-61a3-4e3d-9a07-59dbfbde5627
+app.put("/techniki/aktualizuj/:id", (request, response) => {
+    const id = request.params.id; // id = d18386e8-61a3-4e3d-9a07-59dbfbde5627
+    const body = request.body; // body = {"nazwa":"wartość", etc. }
+
+    redisClient.exists(id, (error, response_exist) => {
+        if (response_exist == 1) {
+            redisClient.hmset(`${id}`, {'nazwa': `${body.nazwa}`, 'rodzaj': `${body.rodzaj}`, 'ilosc_kolorow': `${body.ilosc_kolorow}`, 'przyklad_dziela': `${body.przyklad_dziela}`});
+            console.log(`Zaktalizowano przybory ${id} w Redisie`);
+        }
+    });
+
+    pgClient.query(`UPDATE przybory SET nazwa = '${body.nazwa}', rodzaj = '${body.rodzaj}', ilosc_kolorow = ${body.ilosc_kolorow}, przyklad_dziela = '${body.przyklad_dziela}' WHERE id = '${id}';`);
+    console.log(`Zaktualizowano przybory ${id} w bazie danych`);
+
+    response.end();
+});
+
+// localhost:8090/techniki/kasuj/d18386e8-61a3-4e3d-9a07-59dbfbde5627
+app.delete("/techniki/kasuj/:id", (request, response) => {
+    const id = request.params.id;
+
+    redisClient.exists(id, (error, response_exist) => {
+        if (response_exist == 1) {
+            redisClient.del(`${id}`);
+            console.log(`Skasowano przybory o id ${id} w Redisie`);
+        }
+    });
+
+    pgClient.query(`DELETE FROM przybory WHERE id = '${id}';`);
+    console.log(`Skasowano przybory o id ${id} w bazie danych`);
+
+    response.end(); // Wyślij status 200 OK
+});
+
+// localhost:8090/techniki
+app.get("/techniki", (request, response) => {
+    pgClient.query('SELECT * FROM przybory;', (error, response_postgres) => {
+        if (error) {
+            console.log(error.stack);
+        } else {
+            const data = response_postgres.rows;
+            console.log('Tabelka z technikami została wczytana z bazy danych');
+            response.send(data);
+        }
+    });
+});
+
 // konfiguracja mybackend
-const PORT = 5050;
+const PORT = 5000;
 app.listen(PORT, () => {
     console.log(`mybackend API jest na porcie ${PORT}`);
 });

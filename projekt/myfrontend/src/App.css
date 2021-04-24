@@ -1,0 +1,92 @@
+body {
+  background-color: darkgreen;
+}
+
+table {
+  background-color: lightgreen;
+  margin: 0 auto;
+  width: 90vw;
+  table-layout: fixed;
+}
+
+textarea {
+  width: 49%;
+  height: 50px;
+  padding: 5px;
+}
+
+th, td {
+  padding: 5px;
+  background-color: lightyellow;
+  text-align: center;
+}
+
+.bigbox {
+  background-color:rgba(255,255,255,0.9);
+  min-height: 900px;
+  width: 90vw;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.box {
+  float: left;
+  border: 2px solid lightsalmon;
+  margin: 50px 16px;
+  background-color: lightgoldenrodyellow;
+  padding: 10px;
+  width: 27vw;
+  height: 320px;
+}
+
+form > input, button {
+  padding: 5px;
+  margin: 3px auto;
+}
+
+form > input[type=text] {
+  width: 49%;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.row-table {
+  cursor: pointer;
+}

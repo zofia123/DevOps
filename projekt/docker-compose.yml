@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+    myredis:
+        image: 'redis:alpine'
+        networks:
+            - mymulticont
+        container_name: myredis
+    
+    mypostgres:
+        image: 'postgres:alpine'
+        environment:
+            - POSTGRES_PASSWORD=morsowanie
+        volumes:
+            - datapostgres:/var/lib/postgresql/data
+        networks:
+            - mymulticont
+        container_name: mypostgres
+
+    mybackend:
+        image: zofiat/mybackend
+        restart: always
+        networks:
+            - mymulticont
+        build:
+            dockerfile: Dockerfile
+            context: ./mybackend
+        ports:
+            - 8090:5000
+        container_name: mybackend
+
+
+networks:
+    mymulticont:
+        name: mymulticont
+
+volumes:
+    datapostgres:
+        name: datapostgres
