@@ -6,7 +6,7 @@ const SzczegolyTechniki = (props) => { // function SzczegolyTechniki(props) {}
     const [technika, setTechnika] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:8090/techniki/${props.id}`)
+        axios.get(`api/techniki/${props.id}`)
             .then(response => setTechnika(response.data))
             .catch(error => console.log(error));
     }, [props.id]);

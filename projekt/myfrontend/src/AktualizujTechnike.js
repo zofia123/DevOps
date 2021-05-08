@@ -9,7 +9,7 @@ const AktualizujTechnike = (props) => {
     const [przyklad_dziela, setPrzyklad_dziela] = useState("");
 
     useEffect(() => {
-        axios.get(`http://localhost:8090/techniki/${props.id}`)
+        axios.get(`api/techniki/${props.id}`)
             .then(response => {
                 setNazwa(response.data.nazwa);
                 setRodzaj(response.data.rodzaj);
@@ -20,7 +20,7 @@ const AktualizujTechnike = (props) => {
     }, [props.id]);
 
     const submit = (event) => {
-        axios.put(`http://localhost:8090/techniki/aktualizuj/${props.id}`, {
+        axios.put(`api/techniki/aktualizuj/${props.id}`, {
             nazwa: nazwa,
             rodzaj: rodzaj,
             ilosc_kolorow: ilosc_kolorow,

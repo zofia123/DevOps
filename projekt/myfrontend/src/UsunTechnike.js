@@ -4,7 +4,7 @@ import axios from 'axios';
 const UsunTechnike = (props) => {
 
     const submit = (event) => {
-        axios.delete(`http://localhost:8090/techniki/kasuj/${props.id}`)
+        axios.delete(`api/techniki/kasuj/${props.id}`)
             .then((response) => {
                 console.log(response);
             })

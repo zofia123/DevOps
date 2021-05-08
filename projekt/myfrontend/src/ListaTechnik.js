@@ -7,7 +7,7 @@ const ListaTechnik = (props) => {
     const [techniki, setTechniki] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8090/techniki')
+        axios.get('api/techniki')
             .then(response => setTechniki(response.data))
             .catch(error => console.log(error));
     }, []);

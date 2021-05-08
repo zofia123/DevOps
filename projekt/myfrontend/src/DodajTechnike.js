@@ -10,7 +10,7 @@ const DodajTechnike = (props) => {
 
     const submit = (event) => {
         
-        axios.post('http://localhost:8090/techniki/dodaj', {
+        axios.post('api/techniki/dodaj', {
             nazwa: nazwa,
             rodzaj: rodzaj,
             ilosc_kolorow: ilosc_kolorow,

@@ -11,23 +11,52 @@ services:
         image: 'postgres:alpine'
         environment:
             - POSTGRES_PASSWORD=morsowanie
-        volumes:
+        volumes: #backpuje tu dane
             - datapostgres:/var/lib/postgresql/data
         networks:
             - mymulticont
         container_name: mypostgres
 
     mybackend:
-        image: zofiat/mybackend
+        image: zofiat/mybackend #?
         restart: always
         networks:
             - mymulticont
         build:
-            dockerfile: Dockerfile
-            context: ./mybackend
-        ports:
-            - 8090:5000
+            dockerfile: Dockerfile #definicja
+            context: ./mybackend #katalog z którego bedzie brał pliki
+        # ports:
+        #     - 8090:5000
         container_name: mybackend
+        command: ["./delay-postgres.sh", "mypostgres", "node", "index.js"]
+
+    mynginx:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ./mynginx #katalog z którego bedzie brał pliki
+        ports:
+            - '9090:80' #przekierowanie
+        container_name: mynginx
+        networks:
+            - mymulticont
+        image: mynginx
+
+    myfrontend:
+        build:
+            dockerfile: Dockerfile.dev
+            context: ./myfrontend
+        volumes:
+            - /opt/myapp/node_modules #ignoruje
+            - C:/Users/zawieszaki/Documents/GitHub/DevOps/projekt/myfrontend:/opt/myapp
+        # ports:
+        #     - '8000:3000'
+        networks:
+            - mymulticont
+        environment:
+            CHOKIDAR_USEPOLLING: 'true' #dodatkowa biblioteka, żeby zmiany pojawiały się od razu w kontenerze
+        container_name: myfrontend
+        image: zofiat/myfrontend
 
 
 networks:
