@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-backend-deployment
+  labels:
+    component: web-backend
+    app: my-app
+
+spec:
+  template:
+    metadata:
+      name: my-backend-pod
+      labels:
+        component: web-backend
+        app: my-app
+    spec:
+      containers:
+        - name: my-backend-container
+          image: zofiat/my-web-backend:latest
+  
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+      component: web-backend

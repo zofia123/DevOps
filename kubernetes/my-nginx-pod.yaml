@@ -3,12 +3,12 @@ kind: Pod
 metadata: 
   name: my-nginx-pod
   labels: 
-    component: web
+    component: web-frontend
     app: my-app
 
 spec:
   containers:
     - name: my-nginx
-      image: nginx:alpine
+      image: zofiat/my-web-frontend-nginx:latest
       ports:
         - containerPort: 80

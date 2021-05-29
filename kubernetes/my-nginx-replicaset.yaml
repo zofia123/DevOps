@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata: 
+  name: my-nginx-replicaset
+  labels:
+    component: web-frontend
+    app: my-app
+
+spec:
+  template:
+    metadata:
+      name: my-nginx-pod
+      labels:
+        component: web-frontend
+        app: my-app
+    spec:
+      containers:
+        - name: my-nginx-container
+          image: zofiat/my-web-frontend-nginx:latest
+  replicas: 5
+  selector:
+    matchLabels:
+      app: my-app
+      component: web-frontend
