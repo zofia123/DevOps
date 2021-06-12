@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: backend-deployment
+  labels:
+    component: backend
+    app: myplastyka-app
+
+spec:
+  template:
+    metadata:
+      name: backend-pod
+      labels:
+        component: backend
+        app: myplastyka-app
+    spec:
+      containers:
+        - name: backend-container
+          image: zofiat/backend-myplastyka-app:latest
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: myplastyka-app-secret
+                  key: PGPASSWORD
+
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: myplastyka-app-config
+                  key: PGDATABASE
+
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: myplastyka-app-config
+                  key: PGUSER
+
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: myplastyka-app-config
+                  key: PGHOST
+
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myplastyka-app
+      component: backend

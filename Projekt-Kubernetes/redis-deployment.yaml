@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: redis-deployment
+  labels:
+    component: redis
+    app: myplastyka-app
+
+spec:
+  template:
+    metadata:
+      name: redis-pod
+      labels:
+        component: redis
+        app: myplastyka-app
+    spec:
+      containers:
+        - name: redis-container
+          image: redis:alpine
+
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myplastyka-app
+      component: redis
