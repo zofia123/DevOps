@@ -12,5 +12,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /run/desktop/mnt/host/c/dev/k8spv
+    path: /run/desktop/mnt/host/c/k8spv
     type: DirectoryOrCreate

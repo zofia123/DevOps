@@ -27,7 +27,7 @@ const pgClient = new Pool({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
     host: process.env.POSTGRES_HOST,
-    port: "5432"
+    port: 5432
 });
 
 // tworzenie tabeli 
@@ -47,7 +47,7 @@ pgClient.on('error', () => {
 const redis = require("redis");
 
 const redisClient = redis.createClient({
-    host: 'myredis', // nazwa kontenera
+    host: 'redis-clusterip',
     port: 6379
 });
 
@@ -55,10 +55,6 @@ const redisClient = redis.createClient({
 // mybackend
 // konfiguracja endpointów w mybackend
 
-// localhost:8090 lub 127.0.0.1:8090
-app.get("/", (req, res) => {
-    res.send("Hello World!"); // odpowiedź dla klienta (np. przeglądarka lub narzędzie CURL)
-});
 
 // localhost:8090/techniki/dodaj
 app.post('/techniki/dodaj', function (req, res) {
@@ -136,8 +132,8 @@ app.delete("/techniki/kasuj/:id", (request, response) => {
     response.end(); // Wyślij status 200 OK
 });
 
-// localhost:8090/techniki
-app.get("/techniki", (request, response) => {
+// localhost:8090/
+app.get("/", (request, response) => {
     pgClient.query('SELECT * FROM przybory;', (error, response_postgres) => {
         if (error) {
             console.log(error.stack);

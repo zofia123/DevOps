@@ -1,26 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
-
 metadata:
-  name: frontend-deployment
+  name: nginx-deployment
   labels:
     component: frontend
-    app: myplastyka-app
+    app: myapp
 
 spec:
   template:
     metadata:
-      name: frontend-pod
+      name: nginx-pod
       labels:
         component: frontend
-        app: myplastyka-app
+        app: myapp
     spec:
       containers:
-        - name: frontend-container
+        - name: nginx-container
           image: zofiat/frontend-myplastyka-app:latest
 
   replicas: 1
   selector:
     matchLabels:
-      app: myplastyka-app
+      app: myapp
       component: frontend

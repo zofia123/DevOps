@@ -11,4 +11,4 @@ spec:
 
   selector:
     component: redis
-    app: myplastyka-app
+    app: myapp

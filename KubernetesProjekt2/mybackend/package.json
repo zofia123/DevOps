@@ -9,8 +9,15 @@
     "uuid": "^8.3.2",
     "yarn": "^1.22.10"
   },
-  "version": "0.0.0",
+  "version": "1.0.0",
   "name": "mybackend",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon --legacy-watch",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "description": ""
 }

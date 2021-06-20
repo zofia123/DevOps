@@ -5,7 +5,7 @@ metadata:
   name: redis-deployment
   labels:
     component: redis
-    app: myplastyka-app
+    app: myapp
 
 spec:
   template:
@@ -13,7 +13,7 @@ spec:
       name: redis-pod
       labels:
         component: redis
-        app: myplastyka-app
+        app: myapp
     spec:
       containers:
         - name: redis-container
@@ -22,5 +22,5 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: myplastyka-app
+      app: myapp
       component: redis
